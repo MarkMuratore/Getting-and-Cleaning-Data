@@ -1,3 +1,7 @@
+setwd("~/Desktop/Coursera/Getting and Cleaning Data/Course_Project")
+library(plyr)
+library(dplyr)
+
 ### Merge training and test datasets to create the master
 ### dataset
 
@@ -23,22 +27,22 @@ features <- read.table("features.txt")
 mean_std_Col <- grep("(*mean|*std)\\(\\)", features[,2])
 x_data <- x_data[,mean_std_Col]
 
-### Combine datasets into one dataset all_data. Label all_data 
-### with appropriate descriptive variable names
+### Combine datasets into one dataset combined_data. Label 
+### combined_data with appropriate descriptive variable names
 
-all_data <- cbind(sub_data, y_data, x_data)
-names(all_data) <- c("subject", "activity",
+combined_data <- cbind(sub_data, y_data, x_data)
+names(combined_data) <- c("subject", "activity",
                      tolower(features[mean_std_Col, 2]))
                      
 ### Assign descriptive activity names to name the activities 
 ### in the data set
 
 activity <- read.table("activity_labels.txt")
-all_data[,2] <- activity[all_data[,2], 2]
+combined_data[,2] <- activity[combined_data[,2], 2]
 
 ### Calculate the mean fo each subject for each activity
 
-avg_data <- ddply(all_data, .(subject, activity), 
+avg_data <- ddply(combined_data, .(subject, activity), 
                   function(x) colMeans(x[,3:68]))
 
 write.table(avg_data, "tidy.txt", row.names = FALSE)

@@ -24,7 +24,7 @@ sub_data <- rbind(sub_train, sub_test)
 ### standard deviation for each data set. 
 
 features <- read.table("features.txt")
-mean_std_Col <- grep("(*mean|*std)\\()", features[,2])
+mean_std_Col <- grep("(*mean|*std)\\(\\)", features[,2])
 x_data <- x_data[,mean_std_Col]
 
 ### Combine datasets into one dataset combined_data. Label 
